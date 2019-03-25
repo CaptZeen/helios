@@ -268,19 +268,44 @@ namespace GadrocsWorkshop.Helios.Interfaces.DCS.Common
             {
                 if (_allowDCSWorld)
                 {
+ 
+                    // We attempt to get the Saved Games known folder from the native method to cater for situations
+                    // when the locale of the installation has the folder name in non-English.
+
+                    String path;
+                    IntPtr pathPtr;
+                    int hr = NativeMethods.SHGetKnownFolderPath(ref FolderSavedGames, 0, IntPtr.Zero, out pathPtr);
+                    if (hr == 0)
+                    {
+                        path = Marshal.PtrToStringUni(pathPtr);
+                        Marshal.FreeCoTaskMem(pathPtr);
+                    } else
+                    {
+                        path = Environment.GetEnvironmentVariable("userprofile") + "Saved Games";
+                    }
                     RegistryKey pathKey = Registry.CurrentUser.OpenSubKey(@"Software\Eagle Dynamics\DCS World");
+
                     if (pathKey != null)
                     {
                         pathKey.Close();
-
-                        String path;
-                        IntPtr pathPtr;
-                        int hr = NativeMethods.SHGetKnownFolderPath(ref FolderSavedGames, 0, IntPtr.Zero, out pathPtr);
-                        if (hr == 0)
+                        return System.IO.Path.Combine(path, "DCS");
+                    }
+                    else
+                    {
+                        pathKey = Registry.CurrentUser.OpenSubKey(@"Software\Eagle Dynamics\DCS World OpenBeta");
+                        if (pathKey != null)
                         {
-                            path = Marshal.PtrToStringUni(pathPtr);
-                            Marshal.FreeCoTaskMem(pathPtr);
-                            return System.IO.Path.Combine(path, "DCS");
+                            pathKey.Close();
+                            return System.IO.Path.Combine(path, "DCS.openbeta");
+                        }
+                        else
+                        {
+                            pathKey = Registry.CurrentUser.OpenSubKey(@"Software\Eagle Dynamics\DCS World OpenAlpha");
+                            if (pathKey != null)
+                            {
+                                pathKey.Close();
+                                return System.IO.Path.Combine(path, "DCS.openalpha");
+                            }
                         }
                     }
                 }
@@ -300,6 +325,20 @@ namespace GadrocsWorkshop.Helios.Interfaces.DCS.Common
                         pathKey.Close();
                         return "Scripts";
                     }
+                    pathKey = Registry.CurrentUser.OpenSubKey(@"Software\Eagle Dynamics\DCS World OpenBeta");
+                    if (pathKey != null)
+                    {
+                        pathKey.Close();
+                        return "Scripts";
+                    }
+                    pathKey = Registry.CurrentUser.OpenSubKey(@"Software\Eagle Dynamics\DCS World OpenAlpha");
+                    if (pathKey != null)
+                    {
+                        pathKey.Close();
+                        return "Scripts";
+                    }
+
+
                 }
                 return _exportConfigPath;
             }

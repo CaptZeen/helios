@@ -16,6 +16,7 @@
 namespace GadrocsWorkshop.Helios.Gauges.FA18C
 {
     using GadrocsWorkshop.Helios.Gauges.FA18C;
+    using GadrocsWorkshop.Helios.Gauges;
     using GadrocsWorkshop.Helios.ComponentModel;
     using GadrocsWorkshop.Helios.Controls;
     using System;
@@ -23,283 +24,246 @@ namespace GadrocsWorkshop.Helios.Gauges.FA18C
     using System.Windows;
 
     [HeliosControl("Helios.FA18C.UFC", "Up Front Controller", "F/A-18C", typeof(FA18CDeviceRenderer))]
-    class UFC_FA18C: FA18CDevice
+    class UFC_FA18C : FA18CDevice
     {
         private static readonly Rect SCREEN_RECT = new Rect(0, 0, 1, 1);
         private Rect _scaledScreenRect = SCREEN_RECT;
-
-        private string _aircraft;
+        private string _interfaceDeviceName = "UFC";
         private String _font = "MS 33558";
-        //private String _font = "Franklin Gothic";
         public UFC_FA18C()
-            : base("Up Front Controller", new Size(602, 470))
+            : base("UFC", new Size(602, 470))
         {
-            AddButton("EMCON", 527, 129, new Size(48, 48));
-            AddButton("1", 105, 116, new Size(48, 48));
-            AddButton("2", 167, 116, new Size(48, 48));
-            AddButton("3", 229, 116, new Size(48, 48));
-            AddButton("4", 105, 179, new Size(48, 48));
-            AddButton("5", 167, 179, new Size(48, 48));
-            AddButton("6", 229, 179, new Size(48, 48));
-            AddButton("7", 105, 240, new Size(48, 48));
-            AddButton("8", 167, 240, new Size(48, 48));
-            AddButton("9", 229, 240, new Size(48, 48));
-            AddButton("CLR", 105, 303, new Size(48, 48));
-            AddButton("0", 167, 303, new Size(48, 48),true);
-            AddButton("ENT", 229, 303, new Size(48, 48));
-            AddButton("AP", 125, 400, new Size(40, 40),true);
-            AddButton("IFF", 176, 400, new Size(40, 40));
-            AddButton("TCN", 229, 400, new Size(40, 40));
-            AddButton("ILS", 284, 400, new Size(40, 40),true);
-            AddButton("DL", 337, 400, new Size(40, 40), true);
-            AddButton("BCN", 393, 400, new Size(40, 40));
-            AddButton("ONOFF", 447, 400, new Size(40, 40));
-            AddButtonIP("IP", 28, 60, new Size(40, 40));
-            AddButtonIP("ODU 1", 302, 42, new Size(40, 40));
-            AddButtonIP("ODU 2", 302, 107, new Size(40, 40));
-            AddButtonIP("ODU 3", 302, 175, new Size(40, 40));
-            AddButtonIP("ODU 4", 302, 241, new Size(40, 40));
-            AddButtonIP("ODU 5", 302, 310, new Size(40, 40));
-            AddThreeWayToggle("ADF", 33, 122, new Size(30, 60));
+            AddButton("EMCON", 527, 129, new Size(48, 48), "UFC Emission Control Pushbutton");
+            AddButton("1", 105, 116, new Size(48, 48), "UFC Keyboard Pushbutton 1");
+            AddButton("2", 167, 116, new Size(48, 48), "UFC Keyboard Pushbutton 2");
+            AddButton("3", 229, 116, new Size(48, 48), "UFC Keyboard Pushbutton 3");
+            AddButton("4", 105, 179, new Size(48, 48), "UFC Keyboard Pushbutton 4");
+            AddButton("5", 167, 179, new Size(48, 48), "UFC Keyboard Pushbutton 5");
+            AddButton("6", 229, 179, new Size(48, 48), "UFC Keyboard Pushbutton 6");
+            AddButton("7", 105, 240, new Size(48, 48), "UFC Keyboard Pushbutton 7");
+            AddButton("8", 167, 240, new Size(48, 48), "UFC Keyboard Pushbutton 8");
+            AddButton("9", 229, 240, new Size(48, 48), "UFC Keyboard Pushbutton 9");
+            AddButton("CLR", 105, 303, new Size(48, 48), "UFC Keyboard Pushbutton CLR");
+            AddButton("0", 167, 303, new Size(48, 48), "UFC Keyboard Pushbutton 0");
+            AddButton("ENT", 229, 303, new Size(48, 48), "UFC Keyboard Pushbutton ENT");
+            AddButton("AP", 125, 400, new Size(40, 40), "UFC Function Selector Pushbutton A/P");
+            AddButton("IFF", 176, 400, new Size(40, 40), "UFC Function Selector Pushbutton IFF");
+            AddButton("TCN", 229, 400, new Size(40, 40), "UFC Function Selector Pushbutton TCN");
+            AddButton("ILS", 284, 400, new Size(40, 40), "UFC Function Selector Pushbutton ILS");
+            AddButton("DL", 337, 400, new Size(40, 40), "UFC Function Selector Pushbutton D/L");
+            AddButton("BCN", 393, 400, new Size(40, 40), "UFC Function Selector Pushbutton BCN");
+            AddButton("ONOFF", 447, 400, new Size(40, 40), "UFC Function Selector Pushbutton ON/OFF");
+            AddButtonIP("IP", 28, 60, new Size(40, 40), "UFC I/P Pushbutton");
+            AddButtonIP("ODU 1", 302, 42, new Size(40, 40), "UFC Option Select Pushbutton 1");
+            AddButtonIP("ODU 2", 302, 107, new Size(40, 40), "UFC Option Select Pushbutton 2");
+            AddButtonIP("ODU 3", 302, 175, new Size(40, 40), "UFC Option Select Pushbutton 3");
+            AddButtonIP("ODU 4", 302, 241, new Size(40, 40), "UFC Option Select Pushbutton 4");
+            AddButtonIP("ODU 5", 302, 310, new Size(40, 40), "UFC Option Select Pushbutton 5");
+            AddThreeWayToggle("ADF", 33, 122, new Size(30, 60), "UFC ADF Function Select Switch");
 
-            AddPot("UFC Display Brightness", new Point(528, 66), new Size(48, 48));
-            AddPot("Radio Volume 1", new Point(25, 213), new Size(48, 48));
-            AddPot("Radio Volume 2", new Point(528, 213), new Size(48, 48));
-            AddEncoder("Radio 1", new Point(29, 383), new Size(75, 75));
-            AddButtonIP("Radio 1 Pull", 52, 408, new Size(28, 28),false);
-            AddEncoder("Radio 2", new Point(500, 383), new Size(75, 75));
-            AddButtonIP("Radio 2 Pull", 523, 408, new Size(28, 28),false);
+            AddPot("Display Brightness", new Point(528, 66), new Size(48, 48), "UFC Brightness Control Knob");
+            AddPot("Radio Volume 1", new Point(25, 213), new Size(48, 48), "UFC COMM 1 Volume Control Knob");
+            AddPot("Radio Volume 2", new Point(528, 213), new Size(48, 48), "UFC COMM 2 Volume Control Knob");
+            AddEncoder("Radio 1", new Point(29, 383), new Size(75, 75), "UFC COMM 1 Channel Selector Knob");
+            AddButtonIP("Radio 1 Pull", 52, 408, new Size(28, 28), "UFC COMM 1 Channel Selector Pull", false);
+            AddEncoder("Radio 2", new Point(500, 383), new Size(75, 75), "UFC COMM 2 Channel Selector Knob");
+            AddButtonIP("Radio 2 Pull", 523, 408, new Size(28, 28), "UFC COMM 2 Channel Selector Pull", false);
+
+            /// adding the displays
+            AddTextDisplay("OptionCueing1", 358, 45, new Size(40, 42), "Option Display 1 Selected");
+            AddTextDisplay("OptionDisplay1", 381, 45, new Size(129, 42), "Option Display 1");
+            AddTextDisplay("OptionCueing2", 358, 111, new Size(40, 42), "Option Display 2 Selected");
+            AddTextDisplay("OptionDisplay2", 381, 111, new Size(129, 42), "Option Display 2");
+            AddTextDisplay("OptionCueing3", 358, 177, new Size(40, 42), "Option Display 3 Selected");
+            AddTextDisplay("OptionDisplay3", 381, 177, new Size(129, 42), "Option Display 3");
+            AddTextDisplay("OptionCueing4", 358, 244, new Size(40, 42), "Option Display 4 Selected");
+            AddTextDisplay("OptionDisplay4", 381, 244, new Size(129,42), "Option Display 4");
+            AddTextDisplay("OptionCueing5", 358, 310, new Size(40, 42), "Option Display 5 Selected");
+            AddTextDisplay("OptionDisplay5", 381, 310, new Size(129,42), "Option Display 5");
+            AddTextDisplay("ScratchPadCharacter1", 92, 35, new Size(32, 48), "Scratchpad 1", 30);
+            AddTextDisplay("ScratchPadCharacter2", 122, 35, new Size(32, 48), "Scratchpad 2", 30);
+            AddTextDisplay("ScratchPadNumbers", 152, 35, new Size(135, 48), "Scratchpad Number", 30, TextHorizontalAlignment.Right);
+            AddTextDisplay("Comm1", 26, 314, new Size(41, 42), "Comm Channel 1", TextHorizontalAlignment.Center);
+            AddTextDisplay("Comm2", 538, 309, new Size(40, 42), "Comm Channel 2", TextHorizontalAlignment.Center);
         }
 
         public override string BezelImage
         {
-            get { return "{Helios}/Gauges/FA-18C/UFC/UFC Faceplate.png"; }
-        }
-            
-        private void AddTrigger(IBindingTrigger trigger, string device)
-        {
-            trigger.Device = device;
-            Triggers.Add(trigger);
+            get { return "{Helios}/Images/FA-18C/UFC Faceplate.png"; }
         }
 
-        private void AddAction(IBindingAction action, string device)
+        private void AddPot(string name, Point posn, Size size, string interfaceElementName)
         {
-            action.Device = device;
-            Actions.Add(action);
+            AddPot(name: name, 
+                posn: posn, 
+                size: size, 
+                knobImage: "{Helios}/Images/AV-8B/Common Knob.png", 
+                initialRotation: 219, 
+                rotationTravel: 291, 
+                minValue: 0, 
+                maxValue: 1, 
+                initialValue: 0, 
+                stepValue: 0.1,
+                interfaceDeviceName: _interfaceDeviceName,
+                interfaceElementName: interfaceElementName,
+                fromCenter: false);
         }
-        private void AddPot(string name, Point posn, Size size)
-        {
-            Helios.Controls.Potentiometer _knob = new Helios.Controls.Potentiometer();
-            _knob.Name = name;
-            _knob.KnobImage = "{Helios}/Images/AV-8B/Common Knob.png";
-            _knob.InitialRotation = 219;
-            _knob.RotationTravel = 291;
-            _knob.MinValue = 0;
-            _knob.MaxValue = 1;
-            _knob.InitialValue = 0;
-            _knob.StepValue = 0.1;
-            _knob.Top = posn.Y;
-            _knob.Left = posn.X;
-            _knob.Width = size.Width;
-            _knob.Height = size.Height;
 
-            Children.Add(_knob);
-            foreach (IBindingTrigger trigger in _knob.Triggers)
-            {
-                AddTrigger(trigger, name);
-            }
-            AddAction(_knob.Actions["set.value"], name);
+        private void AddEncoder(string name, Point posn, Size size, string interfaceElementName)
+        {
+            AddEncoder(
+                name: name,
+                size: size,
+                posn: posn,
+                knobImage: "{Helios}/Images/FA-18C/UFC Rotator_U.png",
+                stepValue: 0.1,
+                rotationStep: 5,
+                interfaceDeviceName: _interfaceDeviceName,
+                interfaceElementName: interfaceElementName,
+                fromCenter: false
+                );
         }
-        private void AddEncoder(string name, Point posn, Size size)
+
+        //private void AddTextDisplay(string name, double x, double y, Size size, string testDisp)
+        //{
+        //    AddTextDisplay(name, x, y, size, 32, testDisp, TextHorizontalAlignment.Left);
+        //}
+        private void AddTextDisplay(string name, double x, double y, Size size, string interfaceElementName,
+            double baseFontsize, TextHorizontalAlignment hTextAlign)
         {
-            Helios.Controls.RotaryEncoder _knob = new Helios.Controls.RotaryEncoder();
-            _knob.Name = name;
-            //_knob.KnobImage = "{Helios}/Images/AV-8B/AV8BNA_Rotary5.png";
-            _knob.KnobImage = "{Helios}/Images/FA-18C/UFC Rotator_U.png";
-            _knob.StepValue = 0.1;
-            _knob.RotationStep = 5;
-            _knob.Top = posn.Y;
-            _knob.Left = posn.X;
-            _knob.Width = size.Width;
-            _knob.Height = size.Height;
-
-            Children.Add(_knob);
-            foreach (IBindingTrigger trigger in _knob.Triggers)
-            {
-                AddTrigger(trigger, name);
-            }
-            foreach (IBindingAction action in _knob.Actions)
-            {
-                AddAction(action, name);
-            }
-
-            //AddAction(_knob.Actions["set.value"], name);
-            //AddAction(_knob.Actions["push"], name);
-            //AddAction(_knob.Actions["release"], name);
+            AddTextDisplay(name, x, y, size, interfaceElementName, baseFontsize, "~",  hTextAlign);
         }
-        private void AddButton(string name, double x, double y, Size size) { AddButton(name, x, y, size, false); }
-         private void AddButton(string name, double x, double y, Size size, bool altImage)
+        private void AddTextDisplay(string name, double x, double y, Size size, string interfaceElementName, double baseFontsize)
         {
-        Helios.Controls.PushButton button = new Helios.Controls.PushButton();
-            if (altImage)
-            {
-                _aircraft = "FA-18C";
-            } else
-            {
-                _aircraft = "AV-8B";
-            }
-            button.Top = y;
-            button.Left = x;
-            button.Width = size.Width;
-            button.Height = size.Height;
-            button.Image = "{Helios}/Images/" + _aircraft + "/UFC Button Up " + name + ".png";
-            button.PushedImage = "{Helios}/Images/" + _aircraft + "/UFC Button Dn " + name + ".png";
-            button.Text = "";
-            button.Name = "UFC Key " + name;
-
-            Children.Add(button);
-
-            AddTrigger(button.Triggers["pushed"], "UFC Key " + name);
-            AddTrigger(button.Triggers["released"], "UFC Key " + name);
-
-            AddAction(button.Actions["push"], "UFC Key " + name);
-            AddAction(button.Actions["release"], "UFC Key " + name);
-            AddAction(button.Actions["set.physical state"], "UFC Key " + name);
+            AddTextDisplay(name, x, y, size, interfaceElementName, baseFontsize, "~", TextHorizontalAlignment.Left);
         }
-        private void AddButtonIP(string name, double x, double y, Size size)
-        { AddButtonIP(name, x, y, size, true); }
-        private void AddButtonIP(string name, double x, double y, Size size,Boolean glyph)
+        private void AddTextDisplay(string name, double x, double y, Size size, string interfaceElementName, TextHorizontalAlignment hTextAlign)
         {
-            Helios.Controls.PushButton button = new Helios.Controls.PushButton();
-            button.Top = y;
-            button.Left = x;
-            button.Width = size.Width;
-            button.Height = size.Height;
-            button.Image = "{Helios}/Images/Buttons/tactile-dark-round.png";
-            button.PushedImage = "{Helios}/Images/Buttons/tactile-dark-round-in.png";
-            button.Text = "";
-            button.Name = "UFC Key " + name;
+            AddTextDisplay(name, x, y, size, interfaceElementName, 32, "~", hTextAlign);
+        }
+        private void AddTextDisplay(string name, double x, double y, Size size, string interfaceElementName)
+        {
+            AddTextDisplay(name, x, y, size, interfaceElementName, 32, "~", TextHorizontalAlignment.Left);
+        }
+        private void AddTextDisplay(string name, double x, double y, Size size,
+            string interfaceElementName, double baseFontsize, string testDisp, TextHorizontalAlignment hTextAlign)
+        {
+            TextDisplay display = AddTextDisplay(
+                name: name,
+                pos: new Point(x, y),
+                size: size,
+                font: "Hornet UFC",
+                baseFontsize: baseFontsize,
+                horizontalAlignment: hTextAlign,
+                verticalAligment: TextVerticalAlignment.Center,
+                testTextDisplay: testDisp,
+                textColor: Color.FromArgb(0xff, 0x7e, 0xde, 0x72),
+                backgroundColor: Color.FromArgb(0xff, 0x26, 0x3f, 0x36),
+                useBackground: false,
+                interfaceDeviceName: _interfaceDeviceName,
+                interfaceElementName: interfaceElementName
+                );
+        }
+
+        private void AddButton(string name, double x, double y, Size size, string interfaceElementName)
+        {
+            Point pos = new Point(x, y);
+            AddButton(
+                name: name,
+                posn: pos,
+                size: size,
+                image: "{Helios}/Images/FA-18C/UFC Button Up " + name + ".png",
+                pushedImage: "{Helios}/Images/FA-18C/UFC Button Dn " + name + ".png",
+                buttonText: "",
+                interfaceDeviceName: _interfaceDeviceName,
+                interfaceElementName: interfaceElementName,
+                fromCenter: false
+                );
+        }
+
+        private void AddButtonIP(string name, double x, double y, Size size, string interfaceElementName)
+        { AddButtonIP(name, x, y, size, interfaceElementName, true); }
+        private void AddButtonIP(string name, double x, double y, Size size, string interfaceElementName, Boolean glyph)
+        {
+            Point pos = new Point(x, y);
+            PushButton button = AddButton(
+                name: name,
+                posn: pos,
+                size: size,
+                image: "{Helios}/Images/Buttons/tactile-dark-round.png",
+                pushedImage: "{Helios}/Images/Buttons/tactile-dark-round-in.png",
+                buttonText: "",
+                interfaceDeviceName: _interfaceDeviceName,
+                interfaceElementName: interfaceElementName,
+                fromCenter: false
+                );
+
             if (glyph)
             {
                 button.Glyph = PushButtonGlyph.Circle;
                 button.GlyphThickness = 3;
                 button.GlyphColor = Color.FromArgb(0xFF, 0xC0, 0xC0, 0xC0);
             }
-            Children.Add(button);
 
-            AddTrigger(button.Triggers["pushed"], "UFC Key " + name);
-            AddTrigger(button.Triggers["released"], "UFC Key " + name);
-
-            AddAction(button.Actions["push"], "UFC Key " + name);
-            AddAction(button.Actions["release"], "UFC Key " + name);
-            AddAction(button.Actions["set.physical state"], "UFC Key " + name);
         }
         private void AddIndicator(string name, double x, double y, Size size) { AddIndicator(name, x, y, size, false); }
         private void AddIndicator(string name, double x, double y, Size size, bool _vertical)
         {
-            Helios.Controls.Indicator indicator = new Helios.Controls.Indicator();
-            indicator.Top = y;
-            indicator.Left = x;
-            indicator.Width = size.Width;
-            indicator.Height = size.Height;
-            indicator.OnImage = "{Helios}/Images/Indicators/anunciator.png";
-            indicator.OffImage = "{Helios}/Images/Indicators/anunciator.png";
-            if(name == "Unknown 1")
-            {
-                indicator.Text = ". . .";
-            }
-            else
-            {
-                indicator.Text = name;
-            }
-            indicator.Name = "Annunciator " + name;
-            indicator.OnTextColor = Color.FromArgb(0xff, 0x24, 0x8D, 0x22);
-            indicator.OffTextColor = Color.FromArgb(0xff, 0x1C, 0x1C, 0x1C);
-            indicator.TextFormat.FontStyle = FontStyles.Normal;
-            indicator.TextFormat.FontWeight = FontWeights.Normal;
-            if (_vertical)
-            {
-                indicator.TextFormat.FontSize = 8;
-            }
-            else
-            {
-                indicator.TextFormat.FontSize = 12;
-            }
-            indicator.TextFormat.FontFamily = new FontFamily(_font);
-            indicator.TextFormat.PaddingLeft = 0;
-            indicator.TextFormat.PaddingRight = 0;
-            indicator.TextFormat.PaddingTop = 0;
-            indicator.TextFormat.PaddingBottom = 0;
-            indicator.TextFormat.VerticalAlignment = TextVerticalAlignment.Center;
-            indicator.TextFormat.HorizontalAlignment = TextHorizontalAlignment.Center;
-
-            Children.Add(indicator);
-            foreach (IBindingTrigger trigger in indicator.Triggers)
-            {
-                AddTrigger(trigger, name);
-            }
-            AddAction(indicator.Actions["set.indicator"], name);
+            Helios.Controls.Indicator indicator = AddIndicator(
+                name: name,
+                posn: new Point(x, y),
+                size: size,
+                onImage: "{Helios}/Images/Indicators/anunciator.png",
+                offImage: "{Helios}/Images/Indicators/anunciator.png",
+                onTextColor: Color.FromArgb(0xff, 0x24, 0x8D, 0x22),
+                offTextColor: Color.FromArgb(0xff, 0x1C, 0x1C, 0x1C),
+                font: _font,
+                vertical: _vertical,
+                interfaceDeviceName: "",
+                interfaceElementName: "",
+                fromCenter: false
+                );
         }
+
         private void AddIndicatorPushButton(string name, double x, double y, Size size)
         {
-            Helios.Controls.IndicatorPushButton indicator = new Helios.Controls.IndicatorPushButton();
-            indicator.Top = y;
-            indicator.Left = x;
-            indicator.Width = size.Width;
-            indicator.Height = size.Height;
-            indicator.Image = "{Helios}/Images/Indicators/indicator.png";
-            indicator.PushedImage = "{Helios}/Images/Indicators/indicator-push.png";
-            indicator.Text = name;
-            indicator.Name = name;
+            Color onTextColor;
             if (name == "MASTER WARNING")
             {
-                indicator.OnTextColor = Color.FromArgb(0xff, 0xc7, 0x1e, 0x1e);
+                onTextColor = Color.FromArgb(0xff, 0xc7, 0x1e, 0x1e);
             }
             else
             {
-                indicator.OnTextColor = Color.FromArgb(0xff, 0xb3, 0xa2, 0x29);
+                onTextColor = Color.FromArgb(0xff, 0xb3, 0xa2, 0x29);
             }
-            indicator.TextColor = Color.FromArgb(0xff, 0x1C, 0x1C, 0x1C);
-            indicator.TextFormat.FontStyle = FontStyles.Normal;
-            indicator.TextFormat.FontWeight = FontWeights.Normal;
-            indicator.TextFormat.FontSize = 18;
-            indicator.TextFormat.FontFamily = new FontFamily(_font);
-            indicator.TextFormat.PaddingLeft = 0;
-            indicator.TextFormat.PaddingRight = 0;
-            indicator.TextFormat.PaddingTop = 0;
-            indicator.TextFormat.PaddingBottom = 0;
-            indicator.TextFormat.VerticalAlignment = TextVerticalAlignment.Center;
-            indicator.TextFormat.HorizontalAlignment = TextHorizontalAlignment.Center;
 
-            Children.Add(indicator);
-            AddTrigger(indicator.Triggers["pushed"], name);
-            AddTrigger(indicator.Triggers["released"], name);
+            AddIndicatorPushButton(
+                name: name,
+                pos: new Point(x, y),
+                size: size,
+                image: "{Helios}/Images/Indicators/indicator.png",
+                pushedImage: "{Helios}/Images/Indicators/indicator-push.png",
+                textColor: Color.FromArgb(0xff, 0x1C, 0x1C, 0x1C),
+                onTextColor: onTextColor,
+                font: _font
+                );
 
-            AddAction(indicator.Actions["push"], name);
-            AddAction(indicator.Actions["release"], name);
-            AddAction(indicator.Actions["set.indicator"], name);
-         }
-        private void AddThreeWayToggle(string name, double x, double y, Size size)
-        {
-            Helios.Controls.ThreeWayToggleSwitch toggle = new Helios.Controls.ThreeWayToggleSwitch();
-            toggle.Top = y;
-            toggle.Left = x;
-            toggle.Width = size.Width;
-            toggle.Height = size.Height;
-            toggle.DefaultPosition = ThreeWayToggleSwitchPosition.Two;
-            toggle.PositionOneImage = "{Helios}/Images/Toggles/round-up.png";
-            toggle.PositionTwoImage = "{Helios}/Images/Toggles/round-norm.png";
-            toggle.PositionThreeImage = "{Helios}/Images/Toggles/round-down.png";
-            toggle.SwitchType = ThreeWayToggleSwitchType.OnOnOn;
-            toggle.Name = name;
-
-            Children.Add(toggle);
-            foreach (IBindingTrigger trigger in toggle.Triggers)
-            {
-                AddTrigger(trigger, name);
-            }
-            AddAction(toggle.Actions["set.position"], name);
         }
+        private void AddThreeWayToggle(string name, double x, double y, Size size, string interfaceElementName)
+        {
+
+            AddThreeWayToggle(
+                name: name,
+                pos: new Point(x, y),
+                size: size,
+                defaultPosition: ThreeWayToggleSwitchPosition.Two,
+                switchType: ThreeWayToggleSwitchType.OnOnOn,
+                interfaceDeviceName: _interfaceDeviceName,
+                interfaceElementName: interfaceElementName,
+                fromCenter: false
+                );
+        }
+
         public override bool HitTest(Point location)
         {
             if (_scaledScreenRect.Contains(location))

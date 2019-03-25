@@ -1,6 +1,6 @@
 -- Exports.Lua from Helios F/A-18C Interface
--- Exports.Lua from Helios F/A-18C Interface
 print("Helios Aircraft Exports:  F/A-18C\n")
+
 
 function ProcessHighImportance(mainPanelDevice)
 	-- Send Altimeter Values	
@@ -16,82 +16,101 @@ function ProcessHighImportance(mainPanelDevice)
 --
 --
 --    -- getting the IFEI data
---    local li = parse_indication(5)  -- 5 for IFEI
---    if li then
+    local li = parse_indication(5)  -- 5 for IFEI
+	if li then
+--
 --        --IFEI data
 --
---        SendData("2052", string.format("%s",check(li.txt_BINGO)))
---        SendData("2053", string.format("%s",check(li.txt_CLOCK_H)))
---        SendData("2054", string.format("%s",check(li.txt_CLOCK_M)))
---        SendData("2055", string.format("%s",check(li.txt_CLOCK_S)))
---        SendData("2056", string.format("%s",check(li.txt_DD_1)):gsub(":","|"))
---        SendData("2057", string.format("%s",check(li.txt_DD_2)):gsub(":","|"))
---        SendData("2058", string.format("%s",check(li.txt_DD_3)):gsub(":","|"))
---        SendData("2060", string.format("%s",check(li.txt_DD_4)):gsub(":","|"))
---        SendData("2061", string.format("%s",check(li.txt_FF_L)))
---        SendData("2062", string.format("%s",check(li.txt_FF_R)))
---        SendData("2063", string.format("%s",check(li.txt_FUEL_DOWN)))
---        SendData("2064", string.format("%s",check(li.txt_FUEL_UP)))
---        SendData("2065", string.format("%s",check(li.txt_OilPress_L)))
---        SendData("2066", string.format("%s",check(li.txt_OilPress_R)))
---        SendData("2067", string.format("%s",check(li.txt_RPM_L)))
---        SendData("2068", string.format("%s",check(li.txt_RPM_R)))
---        SendData("2069", string.format("%s",check(li.txt_TEMP_L)))
---        SendData("2070", string.format("%s",check(li.txt_TEMP_R)))
---        --SendData("2071", string.format("%s",check(li.txt_TIMER_S)))
---        --SendData("2072", string.format("%s",check(li.txt_TIMER_M)))
---        --SendData("2073", string.format("%s",check(li.txt_TIMER_H)))
---        --SendData("2074", string.format("%s",check(li.txt_Codes)))
---        --SendData("2075", string.format("%s",check(li.txt_SP)))
---        --SendData("2076", string.format("%s",check(li.txt_DrawChar)))
---        --SendData("2077", string.format("%s",check(li.txt_T)))
---        --SendData("2078", string.format("%s",check(li.txt_TimeSetMode)))
+        SendData("2052", string.format("%s",check(li.txt_BINGO)))
+        SendData("2053", string.format("%s",check(li.txt_CLOCK_H)))
+        SendData("2054", string.format("%s",check(li.txt_CLOCK_M)))
+        SendData("2055", string.format("%s",check(li.txt_CLOCK_S)))
+        SendData("2056", string.format("%s",checkTexture(li.txt_DD_1)))
+        SendData("2057", string.format("%s",checkTexture(li.txt_DD_2)))
+        SendData("2058", string.format("%s",checkTexture(li.txt_DD_3)))
+        SendData("2060", string.format("%s",checkTexture(li.txt_DD_4)))
+        SendData("2061", string.format("%s",check(li.txt_FF_L)))
+        SendData("2062", string.format("%s",check(li.txt_FF_R)))
+        SendData("2063", string.format("%s",check(li.txt_FUEL_DOWN)))
+        SendData("2064", string.format("%s",check(li.txt_FUEL_UP)))
+        SendData("2065", string.format("%s",check(li.txt_OilPress_L)))
+        SendData("2066", string.format("%s",check(li.txt_OilPress_R)))
+        SendData("2067", string.format("%s",check(li.txt_RPM_L)))
+        SendData("2068", string.format("%s",check(li.txt_RPM_R)))
+        SendData("2069", string.format("%s",check(li.txt_TEMP_L)))
+        SendData("2070", string.format("%s",check(li.txt_TEMP_R)))
+        SendData("2073", string.format("%s",check(li.txt_TIMER_H)))		
+        SendData("2072", string.format("%s",check(li.txt_TIMER_M)))		
+        SendData("2071", string.format("%s",check(li.txt_TIMER_S)))		
+        SendData("2074", string.format("%s",check(li.txt_Codes)))
+        SendData("2075", string.format("%s",check(li.txt_SP)))
+        SendData("2076", string.format("%s",check(li.txt_DrawChar)))  -- not seen this used
+        SendData("2077", string.format("%s",check(li.txt_T)))
+        SendData("2078", string.format("%s",check(li.txt_TimeSetMode)))
 --
 --        --IFEI textures
 --
-----      IFEI_Textures_table[1]  =check_num(li.RPMTexture)
-----      IFEI_Textures_table[2]  =check_num(li.TempTexture)
-----      IFEI_Textures_table[3]  =check_num(li.FFTexture )
-----      IFEI_Textures_table[4]  =check_num(li.NOZTexture)
-----      IFEI_Textures_table[5]  =check_num(li.OILTexture)
-----      IFEI_Textures_table[6]  =check_num(li.BINGOTexture)
-----      IFEI_Textures_table[7]  =check_num(li.LScaleTexture)
-----      IFEI_Textures_table[8]  =check_num(li.RScaleTexture)
-----      IFEI_Textures_table[9]  =check_num(li.L0Texture)
-----      IFEI_Textures_table[10] =check_num(li.R0Texture)
-----      IFEI_Textures_table[11] =check_num(li.L50Texture)
-----      IFEI_Textures_table[12] =check_num(li.R50Texture)
-----      IFEI_Textures_table[13] =check_num(li.L100Texture)
-----      IFEI_Textures_table[14] =check_num(li.R100Texture)
-----      IFEI_Textures_table[15] =check_num(li.LPointerTexture)
-----      IFEI_Textures_table[16] =check_num(li.RPointerTexture)
+        SendData("4000", string.format("%s",checkTexture(li.RPMTexture)))
+        SendData("4001", string.format("%s",checkTexture(li.TempTexture)))
+        SendData("4002", string.format("%s",checkTexture(li.FFTexture)))
+        SendData("4003", string.format("%s",checkTexture(li.NOZTexture)))
+        SendData("4004", string.format("%s",checkTexture(li.OILTexture)))
+        SendData("4005", string.format("%s",checkTexture(li.BINGOTexture)))
+        SendData("4006", string.format("%s",checkTexture(li.LScaleTexture)))
+        SendData("4007", string.format("%s",checkTexture(li.RScaleTexture)))
+        SendData("4008", string.format("%s",checkTexture(li.L0Texture)))
+        SendData("4009", string.format("%s",checkTexture(li.R0Texture)))
+        SendData("4010", string.format("%s",checkTexture(li.L50Texture)))
+        SendData("4011", string.format("%s",checkTexture(li.R50Texture)))
+        SendData("4012", string.format("%s",checkTexture(li.L100Texture)))
+        SendData("4013", string.format("%s",checkTexture(li.R100Texture)))
+        SendData("4014", string.format("%s",checkTexture(li.LPointerTexture)))
+        SendData("4015", string.format("%s",checkTexture(li.RPointerTexture)))        
+		SendData("4016", string.format("%s",checkTexture(li.ZTexture)))
+		SendData("4017", string.format("%s",checkTexture(li.LTexture)))
+		SendData("4018", string.format("%s",checkTexture(li.RTexture)))
+
 --
 ----
---    end
+    end
 --
 	-- getting the UFC data
 	local li = parse_indication(6)  -- 6 for UFC
 	if li then
---      SendData("2098", string.format("%s",li))
-			
---      SendData("2080", string.format("%s",check(li.UFC_MainDummy)))
---      SendData("2081", string.format("%s",check(li.UFC_mask)))
---      SendData("2082", string.format("%s",check(li.UFC_OptionDisplay1)))
---      SendData("2083", string.format("%s",check(li.UFC_OptionDisplay2)))
---      SendData("2084", string.format("%s",check(li.UFC_OptionDisplay3)))
---      SendData("2085", string.format("%s",check(li.UFC_OptionDisplay4)))
---      SendData("2086", string.format("%s",check(li.UFC_OptionDisplay5)))
---      SendData("2087", string.format("%s",check(li.UFC_OptionCueing1)):gsub(":","|"))
---      SendData("2088", string.format("%s",check(li.UFC_OptionCueing2)):gsub(":","|"))
---      SendData("2089", string.format("%s",check(li.UFC_OptionCueing3)):gsub(":","|"))
---      SendData("2090", string.format("%s",check(li.UFC_OptionCueing4)):gsub(":","|"))
---      SendData("2091", string.format("%s",check(li.UFC_OptionCueing5)):gsub(":","|"))
---      SendData("2092", string.format("%s",check(li.UFC_ScratchPadString1Display)))
---      SendData("2093", string.format("%s",check(li.UFC_ScratchPadString2Display)))
---      SendData("2094", string.format("%s",check(li.UFC_ScratchPadNumberDisplay)))
-        SendData("2095", string.format("%s",check(li.UFC_Comm1Display)):gsub("`","1"):gsub("~","2"):gsub(" ",""))
-        SendData("2096", string.format("%s",check(li.UFC_Comm2Display)):gsub("`","1"):gsub("~","2"):gsub(" ",""))
+        --SendData("2098", string.format("%s",li))
+		local function UFCSendData(UFCcode, UFCvalue)
+			-- This is a 16 segment display so we need to map numerals to a single charcter in the Hornet UFC.ttf font
+			-- the dash has already been catered for and the alphabetic characters should map without change
+			-- Also need to special case 12 because sending ascii 172 is problematic in the Helios code
+			if tonumber(UFCvalue) ~= nil then
+					if tonumber(UFCvalue) == 12 then
+						UFCvalue = string.char(125)  
+					else
+						UFCvalue = string.char(161+UFCvalue)
+					end
+			end
+		SendData(UFCcode,string.format("%1s",UFCvalue))
+		end
+        SendData("2080", string.format("%s",check(li.UFC_MainDummy)))
+        SendData("2081", string.format("%s",check(li.UFC_mask)))
+        SendData("2082", string.format("%s",check(li.UFC_OptionDisplay1))) -- These may need special treatment for Hornet_UFC_Unified.ttf if there are special chars or numbers in the data
+        SendData("2083", string.format("%s",check(li.UFC_OptionDisplay2))) -- These may need special treatment for Hornet_UFC_Unified.ttf if there are special chars or numbers in the data
+        SendData("2084", string.format("%s",check(li.UFC_OptionDisplay3))) -- These may need special treatment for Hornet_UFC_Unified.ttf if there are special chars or numbers in the data
+        SendData("2085", string.format("%s",check(li.UFC_OptionDisplay4))) -- These may need special treatment for Hornet_UFC_Unified.ttf if there are special chars or numbers in the data
+        SendData("2086", string.format("%s",check(li.UFC_OptionDisplay5))) -- These may need special treatment for Hornet_UFC_Unified.ttf if there are special chars or numbers in the data
+        SendData("2087", string.format("%1s",check(li.UFC_OptionCueing1)):gsub(":",string.char(200)))  -- 16 Segment two-dot colon in Hornet_UFC_Unified.ttf
+        SendData("2088", string.format("%1s",check(li.UFC_OptionCueing2)):gsub(":",string.char(200)))  -- 16 Segment two-dot colon in Hornet_UFC_Unified.ttf
+        SendData("2089", string.format("%1s",check(li.UFC_OptionCueing3)):gsub(":",string.char(200)))  -- 16 Segment two-dot colon in Hornet_UFC_Unified.ttf
+        SendData("2090", string.format("%1s",check(li.UFC_OptionCueing4)):gsub(":",string.char(200)))  -- 16 Segment two-dot colon in Hornet_UFC_Unified.ttf
+        SendData("2091", string.format("%1s",check(li.UFC_OptionCueing5)):gsub(":",string.char(200)))  -- 16 Segment two-dot colon in Hornet_UFC_Unified.ttf
+        UFCSendData("2092", string.format("%2s",check(li.UFC_ScratchPadString1Display)):gsub("_",string.char(201)):gsub("`","1"):gsub("~","2"):gsub(" ",""))
+        UFCSendData("2093", string.format("%2s",check(li.UFC_ScratchPadString2Display)):gsub("_",string.char(201)):gsub("`","1"):gsub("~","2"):gsub(" ",""))
+        SendData("2094", string.format("%7s",check(li.UFC_ScratchPadNumberDisplay)):gsub(" ","<"))
+        UFCSendData("2095", string.format("%2s",check(li.UFC_Comm1Display)):gsub("`","1"):gsub("~","2"):gsub(" ",""))
+        UFCSendData("2096", string.format("%2s",check(li.UFC_Comm2Display)):gsub("`","1"):gsub("~","2"):gsub(" ",""))
+		-- test command 00000000*2095=~:2093=É:2092=~:2096=~:2094=8888888:2082=~~~~:2083=~~~~:2084=~~~~:2085=~~~~:2086=~~~~:2087=È:2088=È:2089=È:2090=È:2091=È 
 	end
+
 	
 	--SendData("2098", string.format("%s", table.concat(IFEI_Textures_table,", ") ) )    -- IFEI Textures
 
@@ -107,4 +126,8 @@ function ProcessLowImportance(mainPanelDevice)
 	-- TACAN Channel
 	--SendData(2263, string.format("%0.2f;%0.2f;%0.2f", mainPanelDevice:get_argument_value(263), mainPanelDevice:get_argument_value(264), mainPanelDevice:get_argument_value(265)))
 
+end
+
+checkTexture = function(s)
+    if s == nil then return "0" else return "1" end
 end

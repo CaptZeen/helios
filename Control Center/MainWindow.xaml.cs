@@ -524,7 +524,7 @@ namespace GadrocsWorkshop.Helios.ControlCenter
 #if !DEBUG
                 if (!ActiveProfile.IsValidMonitorLayout)
                 {
-                    Message = "Can not display this profile because it has an invalid monitor configuration.  Please open the editor and select reset monitors from the profile menu.";
+                    Message = "Cannot display this profile because it has an invalid monitor configuration.  Please open the editor and select reset monitors from the profile menu.";
                     ActiveProfile = null;
                     return;
                 }
@@ -532,7 +532,7 @@ namespace GadrocsWorkshop.Helios.ControlCenter
 
                 if (ActiveProfile.IsInvalidVersion)
                 {
-                    Message = "Can not display this profile because it was created with a newer version of Helios.  Please upgrade to the latest version.";
+                    Message = "Cannot display this profile because it was created with a newer version of Helios.  Please upgrade to the latest version.";
                     ActiveProfile = null;
                     return;
                 }
@@ -706,7 +706,8 @@ namespace GadrocsWorkshop.Helios.ControlCenter
                 StartProfile();
             }
 
-            //VersionChecker.CheckVersion();
+            VersionChecker.CheckVersion();
+
         }
 
         protected override void OnInitialized(EventArgs e)
@@ -809,7 +810,7 @@ namespace GadrocsWorkshop.Helios.ControlCenter
         {
             Message = Assembly.GetEntryAssembly().GetName().Version.ToString() +
                 "\nProject Fork: BlueFinBima\n" +
-                "Contributors: Gadroc BlueFinBima Cylution CaptZeen yzfanimal damien022";
+                "Contributors: Gadroc BlueFinBima Cylution CaptZeen damien022 yzfanimal ";
         }
         #endregion
 

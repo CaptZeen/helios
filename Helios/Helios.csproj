@@ -61,8 +61,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EosSharp.1.1.5488.21795\lib\net45\EosSharp.dll</HintPath>
     </Reference>
-    <Reference Include="HidSharp">
-      <HintPath>..\packages\HidSharp.1.5\lib\net35\HidSharp.dll</HintPath>
+    <Reference Include="HidSharp, Version=2.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HidSharp.2.0.5\lib\net35\HidSharp.dll</HintPath>
     </Reference>
     <Reference Include="KeraLua, Version=1.3.2.0, Culture=neutral, PublicKeyToken=04d04586786c6f34, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -76,11 +76,11 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="SharpDX, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.4.1.0\lib\net45\SharpDX.dll</HintPath>
+    <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.DirectInput, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpDX.DirectInput.4.1.0\lib\net45\SharpDX.DirectInput.dll</HintPath>
+    <Reference Include="SharpDX.DirectInput, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DirectInput.4.2.0\lib\net45\SharpDX.DirectInput.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -158,9 +158,14 @@
       <DependentUpon>ImageDecorationAppearanceEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ImageDecorationRenderer.cs" />
-    <Compile Include="Controls\Indicator.cs" />
     <Compile Include="Controls\IndicatorAppearancePropertyEditor.xaml.cs">
       <DependentUpon>IndicatorAppearancePropertyEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TextDisplayRenderer.cs" />
+    <Compile Include="Controls\TextDisplay.cs" />
+    <Compile Include="Controls\Indicator.cs" />
+    <Compile Include="Controls\TextDisplayAppearancePropertyEditor.xaml.cs">
+      <DependentUpon>TextDisplayAppearancePropertyEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\IndicatorPushButton.cs" />
     <Compile Include="Controls\IndicatorPushButtonAppearanceEditor.xaml.cs">
@@ -173,9 +178,15 @@
       <DependentUpon>LineDecorationAppearancePropertyEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\LineDecorationRenderer.cs" />
+    <Compile Include="FontManager.cs" />
+    <Compile Include="Gauges\A-10\A10CDevice\A10CDevice.cs" />
+    <Compile Include="Gauges\A-10\A10CDevice\A10CDeviceRenderer.cs" />
     <Compile Include="Gauges\AV-8B\Fuel Panel\fuelPanel.cs" />
     <Compile Include="Gauges\AV-8B\Advisory Panel\advisory_Panel.cs" />
+    <Compile Include="Gauges\AV-8B\ODU\ODU.cs" />
     <Compile Include="Gauges\AV-8B\UFC\UFC_AV8B.cs" />
+    <Compile Include="Gauges\F-14B\F14BDevice\F14BDevice.cs" />
+    <Compile Include="Gauges\F-14B\F14BDevice\F14BDeviceRenderer.cs" />
     <Compile Include="Gauges\FA-18C\ADI\ADI.cs" />
     <Compile Include="Gauges\FA-18C\Altimeter\BarometricAltimeter.cs" />
     <Compile Include="Gauges\FA-18C\Altimeter\RADARAltimeter.cs" />
@@ -184,6 +195,7 @@
     <Compile Include="Gauges\FA-18C\CabinPressure\CabinPressure.cs" />
     <Compile Include="Gauges\FA-18C\HydraulicPressure\Hydraulic.cs" />
     <Compile Include="Gauges\FA-18C\IAS\IAS.cs" />
+    <Compile Include="Gauges\FA-18C\IFEI\IFEI Gauges.cs" />
     <Compile Include="Gauges\FA-18C\LOx\LOx.cs" />
     <Compile Include="Gauges\FA-18C\MFD\MFD-FA18C-Type-2.cs" />
     <Compile Include="Gauges\FA-18C\MFD\MFD-FA18C-Type-1.cs" />
@@ -329,7 +341,9 @@
     <Compile Include="Gauges\FA-18C\FA18CDevice\FA18CDevice.cs" />
     <Compile Include="Gauges\FA-18C\FA18CDevice\FA18CDeviceRenderer.cs" />
     <Compile Include="Gauges\FA-18C\UFC\UFC.cs" />
+    <Compile Include="Gauges\FA-18C\IFEI\IFEI.cs" />
     <Compile Include="Gauges\FA-18C\VVI\VVI.cs" />
+    <None Include="Gauges\GaugeTextDisplay.cs" />
     <Compile Include="Gauges\KA-50\EGT\EGT.cs" />
     <Compile Include="Gauges\F-16\ADI\ADI.cs" />
     <Compile Include="Gauges\F-16\Airspeed\Airspeed.cs" />
@@ -440,6 +454,10 @@
     <Compile Include="Interfaces\DCS\A10C\Functions\VHFRadioEncoder3.cs" />
     <Compile Include="Interfaces\DCS\A10C\Functions\VHFRadioEncoder4.cs" />
     <Compile Include="Interfaces\DCS\AV8B\Functions\SMCFuzeDisplay.cs" />
+    <Compile Include="Interfaces\DCS\F14B\F14BInterface.cs" />
+    <Compile Include="Interfaces\DCS\F14B\F14BInterfaceEditor.xaml.cs">
+      <DependentUpon>F14BInterfaceEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\DCS\FA18C\FA18CInterface.cs" />
     <Compile Include="Interfaces\DCS\FA18C\FA18CInterfaceEditor.xaml.cs">
       <DependentUpon>FA18CInterfaceEditor.xaml</DependentUpon>
@@ -590,6 +608,8 @@
     <Compile Include="UnitConverters\RadianToDegreesConverter.cs" />
     <Compile Include="UnitConverters\SpeedConverter.cs" />
     <Compile Include="UnitConverters\TimeConverter.cs" />
+    <Compile Include="Units\NozzlePositionPercentUnit.cs" />
+    <Compile Include="Units\NozzlePositionUnit.cs" />
     <Compile Include="Windows\Controls\AnalogBar.cs" />
     <Compile Include="Windows\Controls\AxisBar.cs" />
     <Compile Include="Windows\Controls\ButtonIndicator.cs" />
@@ -701,6 +721,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
+    <Resource Include="Gauges\FA-18C\Altimeter\altimeter_needle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Resource>
     <Resource Include="Images\AV-8B\AV8B Toggle Down.png" />
     <Resource Include="Images\AV-8B\AV8B Toggle Up.png" />
     <Resource Include="Images\AV-8B\AV8BNA_Rotary5.png" />
@@ -735,6 +759,17 @@
     <Resource Include="Interfaces\DCS\Generic\ExportFunctions.lua" />
     <Resource Include="Interfaces\DCS\M2000CSimple\ExportFunctions.lua" />
     <Resource Include="Interfaces\DCS\Mi8Simple\ExportFunctions.lua" />
+    <None Include="Fonts\Helios font registration.reg" />
+    <Content Include="Fonts\Hornet IFEI.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fonts\Hornet UFC.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fonts\MS33558.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Interfaces\DCS\F14B\ExportFunctions.lua" />
     <None Include="Templates\Base\A-10\0.htpl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -1237,6 +1272,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\IndicatorAppearancePropertyEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\TextDisplayAppearancePropertyEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2568,10 +2607,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-    <Resource Include="Gauges\FA-18C\Altimeter\altimeter_needle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
     <Resource Include="Gauges\FA-18C\Common\drum_tape.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -2656,7 +2691,95 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Left Needle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Legends Bingo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Legends FF.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Legends L.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Legends Noz.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Legends Oil.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Legends R.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Legends RPM.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Legends Temp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Legends Z.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Right Needle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Left Nozzle Gauge Marks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Left 0 Nozzle Gauge Marks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Left 100 Nozzle Gauge Marks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Left 50 Nozzle Gauge Marks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Clock Separator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Page Include="Gauges\FA-18C\IFEI\IFEI Nozzle Gauge Marks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Right 0 Nozzle Gauge Marks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Right 100 Nozzle Gauge Marks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Right 50 Nozzle Gauge Marks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Right Nozzle Gauge Marks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
     <Page Include="Interfaces\DCS\A10C\A10CInterfaceEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interfaces\DCS\F14B\F14BInterfaceEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -2750,6 +2873,7 @@
     <Folder Include="Gauges\M-2000C\" />
     <Folder Include="Images\M-2000C\" />
     <Folder Include="Images\Mi-8\" />
+    <Folder Include="Interfaces\DCS\F14B\Functions\" />
     <Folder Include="Interfaces\DCS\M2000CSimple\Functions\" />
     <Folder Include="Interfaces\DCS\Mi8Simple\Functions\" />
     <Folder Include="Interfaces\DCS\MiG21\Functions\" />
@@ -3457,10 +3581,77 @@
     <Resource Include="Gauges\FA-18C\ADI\adi_ball.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Gauges\FA-18C\UFC\UFC Faceplate.png" />
+    <Resource Include="Images\FA-18C\UFC Faceplate.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI.png" />
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI_DOWN.png" />
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI_DOWN_DN.png" />
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI_ET.png" />
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI_ET_DN.png" />
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI_MODE.png" />
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI_MODE_DN.png" />
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI_QTY.png" />
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI_QTY_DN.png" />
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI_UP.png" />
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI_UP_DN.png" />
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI_ZONE.png" />
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI_ZONE_DN.png" />
+    <Resource Include="Gauges\FA-18C\IFEI\IFEI Reflections.png" />
     <Content Include="Helios.ico" />
+    <Resource Include="Images\FA-18C\UFC Button Dn 0 a.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn 1.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn 2.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn 3.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn 4.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn 5.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn 6.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn 7.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn 8.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn 9.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn ALT.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn AWL.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn BCN.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn CLR.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn Dash.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn Dot.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn EMCON.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn ENT.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn IFF.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn ONOFF.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn SVE.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn TCN.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn TMR.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn TOO.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn WOF.png" />
+    <Resource Include="Images\FA-18C\UFC Button Dn WPN.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up 0 a.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up 1.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up 2.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up 3.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up 4.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up 5.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up 6.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up 7.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up 8.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up 9.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up ALT.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up AWL.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up BCN.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up CLR.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up Dash.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up Dot.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up EMCON.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up ENT.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up IFF.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up ONOFF.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up SVE.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up TCN.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up TMR.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up TOO.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up WOF.png" />
+    <Resource Include="Images\FA-18C\UFC Button Up WPN.png" />
+    <Resource Include="Images\AV-8B\ODU.png" />
     <Content Include="_Documents\changelog.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

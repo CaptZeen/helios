@@ -63,7 +63,7 @@ namespace GadrocsWorkshop.Helios.Interfaces.DCS.AV8B
         {
             InitializeComponent();
             Configuration = new DCSConfigurator("DCSAV8B", DCSPath);
-            Configuration.ExportConfigPath = "Config\\Export";
+            Configuration.ExportConfigPath = "Scripts";
             Configuration.ExportFunctionsPath = "pack://application:,,,/Helios;component/Interfaces/DCS/AV8B/ExportFunctions.lua";
         }
 
@@ -90,7 +90,14 @@ namespace GadrocsWorkshop.Helios.Interfaces.DCS.AV8B
                     {
                         pathKey = Registry.CurrentUser.OpenSubKey(@"Software\Eagle Dynamics\DCS AV8BNA");
                     }
-
+                    if (pathKey == null)
+                    {
+                        pathKey = Registry.CurrentUser.OpenSubKey(@"Software\Eagle Dynamics\DCS World OpenBeta");
+                    }
+                    if (pathKey == null)
+                    {
+                        pathKey = Registry.CurrentUser.OpenSubKey(@"Software\Eagle Dynamics\DCS World OpenAlpha");
+                    }
                     if (pathKey != null)
                     {
                         _dcsPath = (string)pathKey.GetValue("Path");
